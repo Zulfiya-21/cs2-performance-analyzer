@@ -1,5 +1,6 @@
 
 import os
+import logging
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Literal
@@ -8,6 +9,10 @@ APP_NAME = os.getenv("APP_NAME", "CS2 Performance Analyzer")
 APP_VERSION = "0.1.0"
 
 app = FastAPI(title=APP_NAME, version=APP_VERSION)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("cs2_analyzer")
+
+logger.info("CS2 Performance Analyzer initialized")
 
 
 @app.get("/")
@@ -43,6 +48,11 @@ def add_match(match: Match):
     match_data = match.model_dump()
     match_data["id"] = len(matches) + 1
     matches.append(match_data)
+    logger.info(
+        "New match added: id=%s, map=%s",
+        match_data["id"],
+        match_data["map_name"]
+    )
     return match_data
 
 
