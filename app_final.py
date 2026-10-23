@@ -63,3 +63,79 @@ def get_match(match_id: int):
         status_code=404,
         detail="Match not found"
     )
+
+
+# Общая статистика игрока
+@app.get("/statistics")
+def get_statistics():
+    total_matches = len(matches)
+
+    wins = sum(
+        1 for match in matches
+        if match["result"] == "win"
+    )
+
+    total_kills = sum(
+        match["kills"] for match in matches
+    )
+
+    total_deaths = sum(
+        match["deaths"] for match in matches
+    )
+
+    # Процент побед
+    win_rate = (
+        round(wins / total_matches * 100, 2)
+        if total_matches > 0 else 0
+    )
+
+    # Соотношение убийств и смертей
+    kd = (
+        round(total_kills / total_deaths, 2)
+        if total_deaths > 0 else None
+    )
+
+    return {
+        "total_matches": total_matches,
+        "wins": wins,
+        "win_rate": win_rate,
+        "kd": kd
+    }
+
+
+# Статистика по картам CS2
+@app.get("/statistics/maps")
+def get_map_statistics():
+    map_stats = {}
+
+    for match in matches:
+        map_name = match["map_name"]
+
+        if map_name not in map_stats:
+            map_stats[map_name] = {
+                "matches": 0,
+                "wins": 0,
+                "kills": 0,
+                "deaths": 0
+            }
+
+        stats = map_stats[map_name]
+
+        stats["matches"] += 1
+        stats["kills"] += match["kills"]
+        stats["deaths"] += match["deaths"]
+
+        if match["result"] == "win":
+            stats["wins"] += 1
+
+    for stats in map_stats.values():
+        stats["win_rate"] = round(
+            stats["wins"] / stats["matches"] * 100, 2
+        )
+
+        stats["kd"] = (
+            round(stats["kills"] / stats["deaths"], 2)
+            if stats["deaths"] > 0 else None
+        )
+
+    return map_stats
