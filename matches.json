@@ -1,0 +1,63 @@
+
+[
+  {
+    "map_name": "Dust 2",
+    "kills": 18,
+    "deaths": 11,
+    "result": "win"
+  },
+  {
+    "map_name": "Nuke",
+    "kills": 17,
+    "deaths": 19,
+    "result": "loss"
+  },
+  {
+    "map_name": "Mirage",
+    "kills": 19,
+    "deaths": 15,
+    "result": "win"
+  },
+  {
+    "map_name": "Dust 2",
+    "kills": 13,
+    "deaths": 18,
+    "result": "win"
+  },
+  {
+    "map_name": "Dust 2",
+    "kills": 10,
+    "deaths": 5,
+    "result": "win"
+  },
+  {
+    "map_name": "Mirage",
+    "kills": 10,
+    "deaths": 15,
+    "result": "loss"
+  },
+  {
+    "map_name": "Nuke",
+    "kills": 5,
+    "deaths": 13,
+    "result": "loss"
+  },
+  {
+    "map_name": "Dust 2",
+    "kills": 9,
+    "deaths": 17,
+    "result": "loss"
+  },
+  {
+    "map_name": "Mirage",
+    "kills": 11,
+    "deaths": 13,
+    "result": "win"
+  },
+  {
+    "map_name": "Nuke",
+    "kills": 11,
+    "deaths": 17,
+    "result": "draw"
+  }
+]

@@ -1,6 +1,8 @@
 
 import os
 import logging
+import json
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Literal
@@ -40,6 +42,21 @@ class Match(BaseModel):
 
 # Список сохранённых матчей
 matches = []
+
+# Загрузка реальных матчей из JSON-файла
+DATA_FILE = Path(__file__).with_name("matches.json")
+
+with DATA_FILE.open("r", encoding="utf-8") as file:
+    saved_matches = json.load(file)
+
+for item in saved_matches:
+    match = Match.model_validate(item)
+    match_data = match.model_dump()
+    match_data["id"] = len(matches) + 1
+    matches.append(match_data)
+
+logger.info("Loaded %s matches from JSON", len(matches))
+
 
 
 # Добавление нового матча
