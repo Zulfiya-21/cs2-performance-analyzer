@@ -1,6 +1,6 @@
 
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Literal
 
@@ -50,3 +50,16 @@ def add_match(match: Match):
 @app.get("/matches")
 def get_matches():
     return matches
+
+
+# Получение матча по его ID
+@app.get("/matches/{match_id}")
+def get_match(match_id: int):
+    for match in matches:
+        if match["id"] == match_id:
+            return match
+
+    raise HTTPException(
+        status_code=404,
+        detail="Match not found"
+    )
