@@ -142,8 +142,73 @@ http://127.0.0.1:8000/version
 3. Проверить сообщения об ошибках в терминале.
 4. Проверить, свободен ли порт 8000.
 
+
 ## CI/CD
 
-Автоматические тесты будут запускаться через GitHub Actions при push и pull request.
+Проект использует GitHub Actions для автоматической проверки приложения.
 
-После успешного тестирования будет формироваться artifact с файлами приложения.
+При каждом push и pull request GitHub Actions:
+
+1. Загружает исходный код проекта.
+2. Устанавливает Python 3.13 и необходимые зависимости.
+3. Запускает автоматические тесты с помощью pytest.
+4. После успешного выполнения тестов создаёт artifact с файлами приложения.
+
+Artifact включает:
+- app_final.py
+- matches.json
+- requirements.txt
+- README.md
+
+Срок хранения artifact — 30 дней.
+
+Результаты автоматических проверок доступны во вкладке Actions на GitHub.
+
+
+
+## Запуск на Linux и macOS
+
+Для запуска на Linux или macOS необходимо установить Python 3.13 или совместимую версию.
+
+Клонировать репозиторий:
+
+```bash
+git clone https://github.com/Zulfiya-21/cs2-performance-analyzer.git
+cd cs2-performance-analyzer
+```
+
+Создать виртуальное окружение:
+
+```bash
+python3 -m venv .venv
+```
+
+Установить зависимости:
+
+```bash
+.venv/bin/python -m pip install -r requirements.txt
+```
+
+Запустить приложение:
+
+```bash
+.venv/bin/python -m uvicorn app_final:app
+```
+
+После запуска открыть документацию API:
+
+http://127.0.0.1:8000/docs
+
+Для запуска автоматических тестов установить дополнительные зависимости:
+
+```bash
+.venv/bin/python -m pip install -r requirements-dev.txt
+```
+
+Выполнить тесты:
+
+```bash
+.venv/bin/python -m pytest -v
+```
+
+Для остановки сервера нажать Ctrl+C.
